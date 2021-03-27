@@ -25,6 +25,7 @@ object Repository {
     }
 
     fun refreshWeather(lng: String, lat: String) = fire(Dispatchers.IO) {
+        //创建一个协程域，让两个网络请求同时进行，增加效率
         coroutineScope {
             val deferredRealtime = async {
                 SunnyWeatherNetWork.getRealtimeWeather(lng, lat)
@@ -49,7 +50,7 @@ object Repository {
     }
 
     private fun <T> fire(context: CoroutineContext, block: suspend () -> Result<T>) =
-        liveData<Result<T>>(context) {
+        liveData(context) {
             val result = try {
                 block()
             } catch (e: Exception) {
