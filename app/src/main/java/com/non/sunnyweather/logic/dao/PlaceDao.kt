@@ -23,5 +23,4 @@ object PlaceDao {
 
     private fun sharePreferences() = SunnyWeatherApplication.context.
         getSharedPreferences("sunny_weather", Context.MODE_PRIVATE)
-
 }
