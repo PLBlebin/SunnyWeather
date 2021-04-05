@@ -48,6 +48,12 @@ class PlaceAdapter(private val fragment: PlaceFragment,
                 fragment.startActivity(intent)
                 fragment.activity?.finish()
             }
+            if (fragment.viewModel.isPlaceRecord() && fragment.viewModel.isPlaceSaved()) {
+                fragment.viewModel.savePlaceRecord(fragment.viewModel.getSavedPlace())
+            } else {
+                fragment.viewModel.savePlaceRecord(place)
+            }
+
             fragment.viewModel.savePlace(place)
         }
         return holder

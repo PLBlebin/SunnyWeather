@@ -29,13 +29,16 @@ object SunnyWeatherNetWork {
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {
+
                 override fun onFailure(call: Call<T>,
-                                       t: Throwable) {
+                                       t: Throwable
+                ) {
                     continuation.resumeWithException(t)
                 }
 
                 override fun onResponse(call: Call<T>,
-                                        response: Response<T>) {
+                                        response: Response<T>
+                ) {
                     val body = response.body()
                     if (body != null) continuation.resume(body)
                     else continuation.resumeWithException(

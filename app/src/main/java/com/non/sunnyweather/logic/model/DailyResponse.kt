@@ -10,8 +10,7 @@ data class DailyResponse(val status: String,
 
     data class Daily(val temperature: List<Temperature>,
                      val skycon: List<Skycon>,
-                     @SerializedName("life_index")
-                     val lifeIndex: LifeIndex)
+                     @SerializedName("life_index") val lifeIndex: LifeIndex)
 
     data class Temperature(val max: Float, val min: Float)
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.non.sunnyweather.logic.Repository
+import com.non.sunnyweather.logic.dao.PlaceDao
 import com.non.sunnyweather.logic.model.Place
 
 class PlaceViewModel : ViewModel(){
@@ -24,6 +25,14 @@ class PlaceViewModel : ViewModel(){
 
     fun getSavedPlace() = Repository.getSavedPlace()
 
+    fun savePlaceRecord(place: Place) = Repository.savePlaceRecord(place)
+
+    fun getSavedPlaceRecord() = Repository.getSavedPlaceRecord()
+
+    fun cleanPlaceRecord() = Repository.cleanPlaceRecord()
+
     fun isPlaceSaved() = Repository.isPlaceSaved()
+
+    fun isPlaceRecord() = Repository.isPlaceRecord()
 
 }

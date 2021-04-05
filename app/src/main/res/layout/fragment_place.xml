@@ -31,10 +31,21 @@
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/placeRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/actionBarLayout"
         android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/cleanBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/button_selector"
+        android:layout_below="@+id/placeRecyclerView"
+        android:text="清除记录"
+        android:visibility="gone" />
 
 </RelativeLayout>

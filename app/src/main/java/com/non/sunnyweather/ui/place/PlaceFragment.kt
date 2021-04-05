@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 
@@ -44,24 +45,33 @@ class PlaceFragment : Fragment() {
             return
         }
         val layoutManager = LinearLayoutManager(activity)
-        recyclerView.layoutManager = layoutManager
+        placeRecyclerView.layoutManager = layoutManager
         adapter = PlaceAdapter(this, viewModel.placeList)
-        recyclerView.adapter = adapter
+        placeRecyclerView.adapter = adapter
+
+        initPlace()
+
         searchPlaceEdit.addTextChangedListener { editable ->
             val content = editable.toString()
             if (content.isNotEmpty()) {
                 viewModel.searchPlaces(content)
             } else {
-                recyclerView.visibility = View.GONE
-                bgImageView.visibility = View.VISIBLE
-                viewModel.placeList.clear()
-                adapter.notifyDataSetChanged()
+                if (viewModel.isPlaceRecord()) {
+                    placeRecyclerView.visibility = View.VISIBLE
+                    cleanBtn.visibility = View.VISIBLE
+                    bgImageView.visibility = View.GONE
+                    viewModel.placeList.clear()
+                    viewModel.placeList.add(viewModel.getSavedPlaceRecord())
+                    adapter.notifyDataSetChanged()
+                }
             }
         }
+
         viewModel.placeLiveData.observe(this, Observer{ result ->
             val places = result.getOrNull()
             if (places != null) {
-                recyclerView.visibility = View.VISIBLE
+                placeRecyclerView.visibility = View.VISIBLE
+                cleanBtn.visibility = View.GONE
                 bgImageView.visibility = View.GONE
                 viewModel.placeList.clear()
                 viewModel.placeList.addAll(places)
@@ -71,6 +81,22 @@ class PlaceFragment : Fragment() {
                 result.exceptionOrNull()?.printStackTrace()
             }
         })
+        cleanBtn.setOnClickListener {
+            viewModel.cleanPlaceRecord()
+            placeRecyclerView.visibility = View.GONE
+            cleanBtn.visibility = View.GONE
+            bgImageView.visibility = View.VISIBLE
+        }
     }
 
+    private fun initPlace() {
+        if (viewModel.isPlaceRecord()){
+            placeRecyclerView.visibility = View.VISIBLE
+            cleanBtn.visibility = View.VISIBLE
+            bgImageView.visibility = View.GONE
+            viewModel.placeList.clear()
+            viewModel.placeList.add(viewModel.getSavedPlaceRecord())
+            adapter.notifyDataSetChanged()
+        }
+    }
 }
